@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles1.css') }}">
+</head>
+<body>
+    <h1>Melanoma Prediction using Convolutional Neural Network</h1>
+    <div class="container">
+        <h2>Prediction Result</h2>
+        <img src="data:image/jpeg;base64,{{ image_data }}" alt="Uploaded Image" class="uploaded-image">
+        <h2>Result: {{ result }}</h2>
+        <a href="/">Upload Another Image</a>
+    </div>
+    <footer>
+        <p>&copy; 2025 Mani Sankar Pasala. All rights reserved.</p>
+    </footer>
+</body>
+</html>

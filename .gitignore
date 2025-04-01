@@ -1,0 +1,30 @@
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv/
+env/
+
+# Model files (if large)
+model/
+*.h5
+*.hdf5
+
+# Ignore uploaded images (if applicable)
+uploads/
+
+# Ignore environment variables
+.env
+
+# Jupyter Notebooks Checkpoints (if you used notebooks)
+.ipynb_checkpoints/
+
+# Ignore log files
+logs/
+*.log
+
+# Ignore render or deployment-related files
+render.yaml
