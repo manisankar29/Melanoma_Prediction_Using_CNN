@@ -3,3 +3,4 @@ numpy
 tensorflow
 keras
 gunicorn
+google-cloud-storage
