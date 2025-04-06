@@ -4,10 +4,29 @@ from flask import Flask, render_template, request
 from keras.models import load_model
 from keras.preprocessing import image
 import numpy as np
+from google.cloud import storage
+import io
+import h5py
 
 app = Flask(__name__)
 
-model = load_model('model/skin.h5')
+BUCKET_NAME = "melanoma-model-storage"
+MODEL_PATH = "skin.h5"
+
+def load_model_from_gcs(bucket_name, model_path):
+    client = storage.Client()
+    bucket = client.bucket(bucket_name)
+    blob = bucket.blob(model_path)
+
+    # Download model as bytes into memory
+    model_bytes = blob.download_as_bytes()
+
+    # Use BytesIO + h5py to load model
+    with h5py.File(io.BytesIO(model_bytes), 'r') as h5file:
+        model = load_model(h5file)
+    return model
+
+model = load_model_from_gcs(BUCKET_NAME, MODEL_PATH)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -31,5 +50,5 @@ def index():
 
     return render_template("index.html")
 
-# if __name__ == '__main__':
-   # app.run(debug=True)
+if __name__ == '__main__':
+   app.run(debug=True)
