@@ -5,25 +5,31 @@ from keras.models import load_model
 from keras.preprocessing import image
 import numpy as np
 from google.cloud import storage
+from google.oauth2 import service_account
 import io
 import h5py
+import os
+import tempfile
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = r"C:\Users\manis\Downloads\gcs-key.json"
 
 app = Flask(__name__)
 
 BUCKET_NAME = "melanoma-model-storage"
 MODEL_PATH = "skin.h5"
+CREDENTIALS_PATH = r"C:\Users\manis\Downloads\gcs-key.json"
 
 def load_model_from_gcs(bucket_name, model_path):
     client = storage.Client()
     bucket = client.bucket(bucket_name)
     blob = bucket.blob(model_path)
 
-    # Download model as bytes into memory
-    model_bytes = blob.download_as_bytes()
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".h5") as temp_file:
+        blob.download_to_file(temp_file)
+        temp_file_path = temp_file.name
 
-    # Use BytesIO + h5py to load model
-    with h5py.File(io.BytesIO(model_bytes), 'r') as h5file:
-        model = load_model(h5file)
+    model = load_model(temp_file_path)
+    os.remove(temp_file_path)  # Optional cleanup
     return model
 
 model = load_model_from_gcs(BUCKET_NAME, MODEL_PATH)
