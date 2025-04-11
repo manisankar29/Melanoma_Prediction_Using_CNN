@@ -20,9 +20,12 @@ MODEL_PATH = "skin.h5"
 
 # Load GCS credentials from environment variable (Render-safe)
 gcs_key_json = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON")
-credentials_dict = json.loads(gcs_key_json)
-credentials = service_account.Credentials.from_service_account_info(credentials_dict)
-client = storage.Client(credentials=credentials)
+if gcs_key_json:
+    credentials_dict = json.loads(gcs_key_json)
+    credentials = service_account.Credentials.from_service_account_info(credentials_dict)
+    client = storage.Client(credentials=credentials)
+else:
+    raise ValueError("Google Cloud credentials not found.")
 
 def load_model_from_gcs(bucket_name, model_path, client):
     bucket = client.bucket(bucket_name)
@@ -60,4 +63,6 @@ def index():
     return render_template("index.html")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))  # Default to 5000 for local development
+    app.run(host='0.0.0.0', port=port, debug=True)
