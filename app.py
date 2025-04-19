@@ -28,16 +28,24 @@ else:
     raise ValueError("Google Cloud credentials not found.")
 
 def load_model_from_gcs(bucket_name, model_path, client):
-    bucket = client.bucket(bucket_name)
-    blob = bucket.blob(model_path)
+    try:
+        print("Connecting to GCS...")
+        bucket = client.bucket(bucket_name)
+        blob = bucket.blob(model_path)
 
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".h5") as temp_file:
-        blob.download_to_file(temp_file)
-        temp_file_path = temp_file.name
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".h5") as temp_file:
+            blob.download_to_file(temp_file)
+            temp_file_path = temp_file.name
+            print(f"Model downloaded to: {temp_file_path}")
 
-    model = load_model(temp_file_path)
-    os.remove(temp_file_path)  
-    return model
+        model = load_model(temp_file_path)
+        print("Model loaded successfully!")
+        os.remove(temp_file_path)  
+        return model
+
+    except Exception as e:
+        print("Failed to load model from GCS:", e)
+        raise
 
 # Load model on startup
 model = load_model_from_gcs(BUCKET_NAME, MODEL_PATH, client)
