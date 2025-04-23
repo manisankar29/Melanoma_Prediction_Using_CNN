@@ -67,7 +67,7 @@ To run the project locally, you must have access to the trained model file and p
 
 You can either:
 - Modify the code to use your own model path.
-- Request access to the model by contacting the project maintainer via 
+- Open an issue on this repository to request access to the model.
 ```
 
 ## 🐳 Deployment Notes
