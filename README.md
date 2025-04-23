@@ -60,6 +60,16 @@ python app.py
 ```
 Open your browser and go to `http://127.0.0.1:5000`
 
+```bash
+⚠️ NOTE: The CNN model file (`skin.h5`) is not included in this repository due to file size limitations.
+
+To run the project locally, you must have access to the trained model file and place it in the appropriate location as expected by the app.
+
+You can either:
+- Modify the code to use your own model path.
+- Request access to the model by contacting the project maintainer via 
+```
+
 ## 🐳 Deployment Notes
 
 - Model is large, so use cloud storage for hosting
@@ -69,4 +79,4 @@ Open your browser and go to `http://127.0.0.1:5000`
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the [LICENSE]() file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
