@@ -19,7 +19,7 @@ BUCKET_NAME = "melanoma-model-storage"
 MODEL_PATH = "skin.h5"
 
 # Load GCS credentials from environment variable (Render-safe)
-GCS_KEY_PATH = r"C:\Users\manis\OneDrive\Desktop\Melanoma\gcs-key.json"
+GCS_KEY_PATH = r"D:\projects\Melanoma-Prediction\Melanoma\gcs-key.json"
 
 if os.path.exists(GCS_KEY_PATH):
     with open(GCS_KEY_PATH, 'r') as f:
