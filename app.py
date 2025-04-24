@@ -12,7 +12,7 @@ import os
 import tempfile
 import json
 
-app = Flask(__name__)
+app = Flask(__name__)     
 
 # Cloud Storage setup
 BUCKET_NAME = "melanoma-model-storage"
